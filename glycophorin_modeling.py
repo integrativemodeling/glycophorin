@@ -1,5 +1,3 @@
-## \example pmi/glycophorin/glycophorin.modeling.py
-
 import IMP
 import IMP.core
 import IMP.base
@@ -15,9 +13,6 @@ import IMP.pmi.representation
 import IMP.pmi.macros
 
 import os
-
-def get_data(fname):
-    return IMP.pmi.get_example_path("glycophorin/data/" + fname)
 
 log_objects = []
 sample_objects = []
