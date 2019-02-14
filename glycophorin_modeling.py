@@ -4,12 +4,12 @@ import IMP.algebra
 import IMP.atom
 import IMP.container
 
-import IMP.pmi
-import IMP.pmi.restraints.basic
-import IMP.pmi.restraints.stereochemistry
-import IMP.pmi.restraints.crosslinking
-import IMP.pmi.representation
-import IMP.pmi.macros
+import IMP.pmi1
+import IMP.pmi1.restraints.basic
+import IMP.pmi1.restraints.stereochemistry
+import IMP.pmi1.restraints.crosslinking
+import IMP.pmi1.representation
+import IMP.pmi1.macros
 
 import os
 
@@ -18,7 +18,7 @@ sample_objects = []
 
 m = IMP.Model()
 
-r = IMP.pmi.representation.Representation(m)
+r = IMP.pmi1.representation.Representation(m)
 
 r.create_component("chainA",color=0.25)
 r.add_component_sequence("chainA", "./data/seq.fasta", id="chainA",offs=61)
@@ -70,32 +70,32 @@ lof = [(62, 75, "chainA"), (96, 101, "chainA"),
 # add bonds and angles
 for l in lof:
 
-    rbr = IMP.pmi.restraints.stereochemistry.ResidueBondRestraint(r, l)
+    rbr = IMP.pmi1.restraints.stereochemistry.ResidueBondRestraint(r, l)
     rbr.add_to_model()
     listofexcludedpairs += rbr.get_excluded_pairs()
     log_objects.append(rbr)
 
-    rar = IMP.pmi.restraints.stereochemistry.ResidueAngleRestraint(r, l)
+    rar = IMP.pmi1.restraints.stereochemistry.ResidueAngleRestraint(r, l)
     rar.add_to_model()
     listofexcludedpairs += rar.get_excluded_pairs()
     log_objects.append(rar)
 
-ev = IMP.pmi.restraints.stereochemistry.ExcludedVolumeSphere(r,resolution=1.0)
+ev = IMP.pmi1.restraints.stereochemistry.ExcludedVolumeSphere(r,resolution=1.0)
 ev.add_excluded_particle_pairs(listofexcludedpairs)
 ev.add_to_model()
 log_objects.append(ev)
 
-eb = IMP.pmi.restraints.basic.ExternalBarrier(r,50)
+eb = IMP.pmi1.restraints.basic.ExternalBarrier(r,50)
 eb.add_to_model()
 log_objects.append(eb)
 
-xl = IMP.pmi.restraints.crosslinking.CysteineCrossLinkRestraint([r],
+xl = IMP.pmi1.restraints.crosslinking.CysteineCrossLinkRestraint([r],
                     filename="./data/expdata.txt", cbeta=True)
 xl.add_to_model()
 log_objects.append(xl)
 sample_objects.append(xl)
 
-mc=IMP.pmi.macros.ReplicaExchange0(m,r,
+mc=IMP.pmi1.macros.ReplicaExchange0(m,r,
                       monte_carlo_sample_objects=sample_objects,
                       output_objects=log_objects,
                       crosslink_restraints=None,
